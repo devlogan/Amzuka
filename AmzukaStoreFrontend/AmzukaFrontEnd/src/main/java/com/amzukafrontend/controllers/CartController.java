@@ -110,18 +110,18 @@ private String customerEmail;
 	
 	@RequestMapping(value="viewCart",method=RequestMethod.GET)
 	public ModelAndView getCart(@RequestParam(name="addrId",required=false)Integer addressId){
+		
 		Cart cartObj=cartDao.getCartByCustomer(customerEmail);
+		Collection<Item> itemslist=cartObj.getItems();
 		
 		mv=new ModelAndView("Cart");
 		int count=0;
 		
-		if(cartObj==null){
+		if(itemslist.size()==0){
 			mv.addObject("msg","Dear Customer , You cart is empty..");
 			return mv;
 		}
 		else {
-
-		Collection<Item> itemslist=cartObj.getItems();
 		
 		double sum=0;
 		

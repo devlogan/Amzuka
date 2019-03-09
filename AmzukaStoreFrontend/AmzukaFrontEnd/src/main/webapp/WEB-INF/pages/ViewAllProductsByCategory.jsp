@@ -30,13 +30,25 @@
                         </div>
                         
                     </div>
-                    <div class="separator clear-left">
+                    <c:choose>
+                    <c:when test="${product.quantity= '0'}">
+                       <div class="separator clear-left">
                         <p class="btn-add">
-                            <i class="fa fa-shopping-cart"></i><a href="${rootdir}/addToCart/${product.productId}" class="hidden-sm">Add to Bag</a></p>
-                            <p>${product.quantity} left!!</p>
+                            <span style="color:red;"><b>Out of stock</b></span>
                         <!-- <p class="btn-details">
                         </p> -->
                     </div>
+                    </c:when>
+                    <c:otherwise>
+                      <div class="separator clear-left">
+                        <p class="btn-add">
+                            <i class="fa fa-shopping-cart"></i><a href="${rootdir}/addToCart/${product.productId}" class="hidden-sm">Add to Bag</a></p>
+                           <!--   <p>${product.quantity} left!!</p>-->
+                        <!-- <p class="btn-details">
+                        </p> -->
+                    </div>
+                    </c:otherwise>
+                    </c:choose>
                     <div class="clearfix">
                     </div>
                 </div>

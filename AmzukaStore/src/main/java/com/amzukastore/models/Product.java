@@ -30,13 +30,15 @@ public class Product {
 	private double price;
 	
 	@NotNull(message="Price is Mandatory")
-	@Min(value=1)
+	@Min(value=0)
 	private int quantity;
 	
 	private double rating;
 	
 	private int categoryId;
 	private int supplierId;
+	
+	
 	
 	@Transient
 	private MultipartFile pImage;
