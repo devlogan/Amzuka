@@ -19,7 +19,7 @@ public class OrderItemsDaoImpl implements OrderItemsDao {
 
 	@Autowired
 	SessionFactory sessionFactory;
-	
+
 	@Override
 	public boolean addOrderItems(OrderItems item) {
 		try
@@ -27,7 +27,7 @@ public class OrderItemsDaoImpl implements OrderItemsDao {
 			Session session=sessionFactory.getCurrentSession();
 			session.save(item);
 			return true;
-			
+
 		}
 		catch(Exception e)
 		{
@@ -40,13 +40,13 @@ public class OrderItemsDaoImpl implements OrderItemsDao {
 	public boolean deleteOrderItems(int itemId) {
 		try
 		{
-			
+
 			Session session=sessionFactory.getCurrentSession();
 			OrderItems items=session.get(OrderItems.class, itemId);
 			session.delete(items);
 			return true;
-			
-			
+
+
 		}
 		catch(Exception e)
 		{
@@ -59,7 +59,7 @@ public class OrderItemsDaoImpl implements OrderItemsDao {
 	public OrderItems getOrderItemsByProductIdAndCustomerId(int productId, String customerEmail) {
 		try
 		{
-			
+
 			Session session=sessionFactory.getCurrentSession();
 			Query query=session.createQuery("from OrderItems where productId=:pId and customerId=:cId");
 			query.setInteger("pId",productId);
@@ -85,7 +85,7 @@ public class OrderItemsDaoImpl implements OrderItemsDao {
 			query.setInteger("id",orderId);
 			List<OrderItems> getItemsListByCart=query.list();
 			return getItemsListByCart;
-			
+
 		}
 		catch(Exception e)
 		{

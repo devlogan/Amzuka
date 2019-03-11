@@ -22,13 +22,13 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@Autowired
 	SessionFactory sessionFactory;
-	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@Override
 	public boolean addCustomer(Customer customer) {
-		
+
 		try {
 			Session session=sessionFactory.getCurrentSession();
 			customer.setPassword(passwordEncoder.encode(customer.getPassword()));
@@ -39,13 +39,13 @@ public class CustomerDaoImpl implements CustomerDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public boolean deleteCustomer(Customer customer) {
-		
+
 		try {
 			Session session=sessionFactory.getCurrentSession();
 			session.delete(customer);
@@ -55,13 +55,13 @@ public class CustomerDaoImpl implements CustomerDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public boolean updateCustomer(Customer customer) {
-		
+
 		try {
 			Session session=sessionFactory.getCurrentSession();
 			session.update(customer);
@@ -71,40 +71,40 @@ public class CustomerDaoImpl implements CustomerDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public Customer getCustomer(String email) {
-		
+
 		try{
 			Session session=sessionFactory.getCurrentSession();
 			Customer customer=session.get(Customer.class, email);
 			return customer;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-		
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 
 	@Override
 	public boolean validateCustomer(String email, String password) {
-		
+
 		try{
 			Session session=sessionFactory.getCurrentSession();
 			Query query=session.createQuery("from Customer where email= :customerEmail and password= :customerPassword");
 			query.setParameter("customerEmail", email);
 			query.setParameter("customerPassword", password);
 			if(query.getResultList() != null)
-			return true;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-		
+				return true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+
 		return false;
 	}
 
@@ -115,7 +115,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			Query query=session.createQuery("select from Customer");
 			return query.getResultList();
 		} 
-		
+
 		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -129,12 +129,12 @@ public class CustomerDaoImpl implements CustomerDao {
 			Session session=sessionFactory.getCurrentSession();
 			session.save(addr);
 			return true;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			return false;
-		
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return false;
+
 	}
 
 	@Override
@@ -143,10 +143,10 @@ public class CustomerDaoImpl implements CustomerDao {
 			Session session=sessionFactory.getCurrentSession();
 			session.delete(addr);
 			return true;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -156,10 +156,10 @@ public class CustomerDaoImpl implements CustomerDao {
 			Session session=sessionFactory.getCurrentSession();
 			session.update(addr);
 			return true;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -169,10 +169,10 @@ public class CustomerDaoImpl implements CustomerDao {
 			Session session=sessionFactory.getCurrentSession();
 			Address addrObj=session.get(Address.class,addressId);
 			return addrObj;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -183,10 +183,10 @@ public class CustomerDaoImpl implements CustomerDao {
 			Query<Address> q=session.createQuery("from Address where customer.email=:email");
 			q.setParameter("email", email);
 			return q.getResultList();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -201,7 +201,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 
@@ -215,9 +215,9 @@ public class CustomerDaoImpl implements CustomerDao {
 			List<Orders> list=query.list();
 			System.out.println("list : "+list);
 			if(list.size()!=0){
-			return list.get(0);
+				return list.get(0);
 			}
-			 
+
 		}
 		catch(Exception e)
 		{
@@ -230,7 +230,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	public boolean deleteOrders(int orderId) {
 		try
 		{
-			
+
 			Session session=sessionFactory.getCurrentSession();
 			Orders orders=session.get(Orders.class,orderId);
 			session.delete(orders);

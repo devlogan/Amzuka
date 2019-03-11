@@ -1,232 +1,294 @@
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<html>
+<head>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link
+	href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-
-<jsp:include page="header.jsp"/>
-
-<div class="container" style="margin-top:50px;">
-	<div class="row">
-
-		<c:forEach items="${productList}" var="product">
-    	<div class="col-xs-12 col-sm-6 col-md-3">
-			
-            <div class="col-item">
-                <div class="post-img-content">
-                    <img style="width: 260px;height: 300px" src="${images}/${product.imgName}" class="img-responsive" />
-                    
-                </div>
-                <div class="info">
-                    <div class="row">
-                    <div>
-                        <div class="price col-md-6">
-                           <h5><b>${product.productName}</b></h5>
-                            <h5 class="price-text-color">${product.price}</h5>
-                        </div>
-                        </div>
-                        <div>	
-                        	
-                        </div>
-                        
-                    </div>
-                    <c:choose>
-                    <c:when test="${product.quantity= '0'}">
-                       <div class="separator clear-left">
-                        <p class="btn-add">
-                            <span style="color:red;"><b>Out of stock</b></span>
-                        <!-- <p class="btn-details">
-                        </p> -->
-                    </div>
-                    </c:when>
-                    <c:otherwise>
-                      <div class="separator clear-left">
-                        <p class="btn-add">
-                            <i class="fa fa-shopping-cart"></i><a href="${rootdir}/addToCart/${product.productId}" class="hidden-sm">Add to Bag</a></p>
-                           <!--   <p>${product.quantity} left!!</p>-->
-                        <!-- <p class="btn-details">
-                        </p> -->
-                    </div>
-                    </c:otherwise>
-                    </c:choose>
-                    <div class="clearfix">
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        </c:forEach>
-            
-</div>
-</div>
-
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <style>
-	@import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
-.col-item
-{
-    border: 1px solid #E1E1E1;
-    border-radius: 10px;
-    background: #FFF;
-}
-.col-item:hover
-{ 
-  box-shadow: 0px 2px 5px -1px #000;
-  -moz-box-shadow: 0px 2px 5px -1px #000;
-  -webkit-box-shadow: 0px 2px 5px -1px #000;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 10px;   
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;   
-  border-bottom:2px solid #52A1D5;        
-}
-.col-item .photo img
-{
-    margin: 0 auto;
-    width: 100%;
-    padding: 1px;
-    border-radius: 10px 10px 0 0 ;
+.disable-oos {
+	width: 92%;
+	height: 100%;
+	position: absolute;
+	background: grey;
+	z-index: 2;
+	opacity: 0.4;
+	padding-top: 100px;
+	left: 12.3px
 }
 
-.col-item .info
-{
-    padding: 10px;
-    border-radius: 0 0 5px 5px;
-    margin-top: 1px;
+.oos-message {
+	color: #fff;
+	font-size: 50px;
+	position: absolute;
+	transform: rotate(-25deg);
+	padding-top: 40px
 }
 
-.col-item .price
-{
-    /*width: 50%;*/
-    float: left;
-    margin-top: 5px;
+.product-grid3 {
+	font-family: Roboto, sans-serif;
+	text-align: center;
+	position: relative;
+	z-index: 1
 }
 
-.col-item .price h5
-{
-    line-height: 20px;
-    margin: 0;
+.product-grid3:before {
+	content: "";
+	height: 81%;
+	width: 100%;
+	background: #fff;
+	border: 1px solid rgba(0, 0, 0, .1);
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	transition: all .5s ease 0s
 }
 
-.price-text-color
-{
-    color: #219FD1;
+.product-grid3:hover:before {
+	opacity: 1;
+	height: 100%
 }
 
-.col-item .info .rating
-{
-    color: #777;
+.product-grid3 .product-image3 {
+	position: relative
 }
 
-.col-item .rating
-{
-    /*width: 50%;*/
-    float: left;
-    font-size: 17px;
-    text-align: right;
-    line-height: 52px;
-    margin-bottom: 10px;
-    height: 52px;
+.product-grid3 .product-image3 a {
+	display: block
 }
 
-.col-item .separator
-{
-    border-top: 1px solid #E1E1E1;
+.product-grid3 .product-image3 img {
+	width: 100%;
+	height: auto
 }
 
-.clear-left
-{
-    clear: left;
+.product-grid3 .pic-1 {
+	opacity: 1;
+	transition: all .5s ease-out 0s
 }
 
-.col-item .separator p
-{
-    line-height: 20px;
-    margin-bottom: 0;
-    margin-top: 10px;
-    text-align: center;
+.product-grid3:hover .pic-1 {
+	opacity: 0
 }
 
-.col-item .separator p i
-{
-    margin-right: 5px;
-}
-.col-item .btn-add
-{
-    width: 50%;
-    float: left;
+.product-grid3 .pic-2 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	transition: all .5s ease-out 0s
 }
 
-.col-item .btn-add
-{
-    border-right: 1px solid #E1E1E1;
-    
+.product-grid3:hover .pic-2 {
+	opacity: 1
 }
 
-.col-item .btn-details
-{
-    width: 50%;
-    float: left;
-    padding-left: 10px;
-}
-.controls
-{
-    margin-top: 20px;
-}
-[data-slide="prev"]
-{
-    margin-right: 10px;
+.product-grid3 .social {
+	width: 120px;
+	padding: 0;
+	margin: 0 auto;
+	list-style: none;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: -23px;
+	transform: scale(0);
+	transition: all .3s ease 0s
 }
 
-/*
-Hover the image
-*/
-.post-img-content
-{
-    height: 196px;
-    position: relative;
+.product-grid3:hover .social {
+	opacity: 1;
+	transform: scale(1)
 }
-.post-img-content img
-{
-    position: absolute;
-    padding: 1px;
-    border-radius: 10px 10px 0 0 ;
+
+.product-grid3:hover .product-discount-label, .product-grid3:hover .product-new-label,
+	.product-grid3:hover .title {
+	opacity: 0
 }
-.post-title{
-    display: table-cell;
-    vertical-align: bottom;
-    z-index: 2;
-    position: relative;
+
+.product-grid3 .social li {
+	display: inline-block
 }
-.post-title b{
-    background-color: rgba(51, 51, 51, 0.58);
-    display: inline-block;
-    margin-bottom: 5px;
-    margin-left: 2px;
-    color: #FFF;
-    padding: 10px 15px;
-    margin-top: 10px;
-    font-size: 12px;
+
+.product-grid3 .social li i {
+	margin-top: 10px;
 }
-.post-title b:first-child{
-    font-size: 14px;
+
+.product-grid3 .social li a {
+	color: #c097f4;
+	background: #fff;
+	font-size: 25px;
+	line-height: 50px;
+	width: 50px;
+	height: 50px;
+	border: 1px solid rgba(0, 0, 0, .1);
+	border-radius: 50%;
+	margin: 0 2px;
+	display: block;
+	transition: all .3s ease 0s
 }
-.round-tag{
-    width: 60px;
-    height: 60px;
-    border-radius: 50% 50% 50% 0;
-    border: 4px solid #FFF;
-    background: #37A12B;
-    position: absolute;
-    bottom: 0px;
-    padding: 15px 6px;
-    font-size: 17px;
-    color: #FFF;
-    font-weight: bold;
+
+.product-grid3 .social li a:hover {
+	background: #c097f4;
+	color: #fff
+}
+
+.product-grid3 .product-discount-label, .product-grid3 .product-new-label
+	{
+	background-color: #e67e22;
+	color: #fff;
+	font-size: 17px;
+	padding: 2px 10px;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	transition: all .3s
+}
+
+.product-grid3 .product-content {
+	z-index: -1;
+	padding: 15px;
+	text-align: left
+}
+
+.product-grid3 .title {
+	font-size: 14px;
+	text-transform: capitalize;
+	margin: 0 0 7px;
+	transition: all .3s ease 0s
+}
+
+.product-grid3 .title a {
+	color: #414141
+}
+
+.product-grid3 .price {
+	color: #000;
+	font-size: 16px;
+	letter-spacing: 1px;
+	font-weight: 600;
+	margin-right: 2px;
+	display: inline-block
+}
+
+.product-grid3 .price span {
+	color: #909090;
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: 0;
+	text-decoration: line-through;
+	text-align: left;
+	display: inline-block;
+	margin-top: -2px
+}
+
+.product-grid3 .rating {
+	padding: 0;
+	margin: -22px 0 0;
+	list-style: none;
+	text-align: right;
+	display: block
+}
+
+.product-grid3 .rating li {
+	color: #ffd200;
+	font-size: 13px;
+	display: inline-block
+}
+
+.product-grid3 .rating li.disable {
+	color: #dcdcdc
+}
+
+@media only screen and (max-width:1200px) {
+	.product-grid3 .rating {
+		margin: 0
+	}
+}
+
+@media only screen and (max-width:990px) {
+	.product-grid3 {
+		margin-bottom: 30px
+	}
+	.product-grid3 .rating {
+		margin: -22px 0 0
+	}
+}
+
+@media only screen and (max-width:359px) {
+	.product-grid3 .rating {
+		margin: 0
+	}
+}
+
+@media ( min-width : 992px) {
+	.product-wrapper {
+		margin: 100px 65px !important
+	}
 }
 </style>
+</head>
+<body>
+	<jsp:include page="header.jsp" />
+
+
+	<div class="row product-wrapper">
+		<c:forEach items="${productList}" var="product">
+			<div class="col-md-3 col-sm-6" style="margin-bottom: 30px">
+
+				<c:if test="${product.quantity== 0}">
+					<div class="disable-oos">
+						<span class="oos-message">OUT OF STOCK</span>
+					</div>
+				</c:if>
+
+				<div class="product-grid3">
+
+					<div class="product-image3">
+						<a href="#"> <img class="img-responsive"
+							src="${images}/${product.imgName}"> <c:if
+								test="${not empty product.imgName1 }">
+								<img class="pic-2 img-responsive"
+									src="${images}/${product.imgName1}">
+							</c:if>
+						</a>
+						<ul class="social">
+							<li><a href="${rootdir}/addToCart/${product.productId}"><i
+									class="fa fa-shopping-bag"></i></a></li>
+						</ul>
+					</div>
+					<div class="product-content">
+						<h3 class="title">
+							<a href="#">${product.productName} ${product.quantity}</a>
+						</h3>
+						<div class="price">
+							<i class="fa fa-inr"></i>${product.price}
+						</div>
+						<ul class="rating">
+							<li class="fa fa-star"></li>
+							<li class="fa fa-star"></li>
+							<li class="fa fa-star"></li>
+							<li class="fa fa-star disable"></li>
+							<li class="fa fa-star disable"></li>
+						</ul>
+					</div>
+
+				</div>
+
+			</div>
+		</c:forEach>
+	</div>
+	<div class="footer-wrapper-index-page">
+		<jsp:include page="footer.jsp" />
+	</div>
+</body>
+</html>

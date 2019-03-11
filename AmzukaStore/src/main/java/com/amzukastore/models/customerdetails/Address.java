@@ -1,6 +1,8 @@
 package com.amzukastore.models.customerdetails;
 
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,48 +16,53 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.amzukastore.models.Customer;
 
 @Entity
-public class Address {
-     
+public class Address implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7540458993622838214L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id", unique=true, updatable=false, nullable=false)
-	 private int id; 
-	 
+	private int id; 
+
 	@NotEmpty(message="Name cannot be empty")
 	private String name;
-	
+
 	@NotEmpty(message="House No. cannot be empty")
-     private String houseNo;
-	
+	private String houseNo;
+
 	@NotEmpty(message="House No. cannot be empty")
-     private String streetName;
-	
-     private String district;
-	
+	private String streetName;
+
+	private String district;
+
 	@NotEmpty(message="City cannot be empty")
-     private String city;
-	
+	private String city;
+
 	@NotEmpty(message="It cannot be empty")
-     private String state;
-	
+	private String state;
+
 	@NotEmpty(message="Pin Code cannot be empty")
-     private String pincode;
-	
+	private String pincode;
+
 	@NotEmpty(message="Mobile No is required")
-    private String mobileNo;
-	
-     @ManyToOne
-     @JoinColumn(name="customerId")
-     private Customer customer; 
-     
-   //Getters and Setters for instance variables
+	private String mobileNo;
+
+	@ManyToOne
+	@JoinColumn(name="customerId")
+	private Customer customer; 
+
+	//Getters and Setters for instance variables
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getMobileNo() {
 		return mobileNo;
 	}
@@ -110,9 +117,9 @@ public class Address {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-     
-	
-     
-     
-	
+
+
+
+
+
 }

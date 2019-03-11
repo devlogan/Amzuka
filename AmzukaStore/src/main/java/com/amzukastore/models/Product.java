@@ -1,5 +1,7 @@
 package com.amzukastore.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,48 +17,55 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
-public class Product {
-	
+public class Product implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1702755696380585434L;
+
+
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
 	private int productId;
-	
+
 	@NotEmpty(message="Product name is mandatory")
 	private String productName;
-	
+
 	@NotNull(message="Price is Mandatory")
 	@Min(value=100)
 	private double price;
-	
+
 	@NotNull(message="Price is Mandatory")
 	@Min(value=0)
 	private int quantity;
-	
+
 	private double rating;
-	
+
 	private int categoryId;
 	private int supplierId;
-	
-	
-	
+
+
+
 	@Transient
 	private MultipartFile pImage;
-	
+
 	@Transient
 	private MultipartFile pImage1;
-	
+
 	private String imgName;
 	private String imgName1;
-	
+
 	@ManyToOne
 	@JoinColumn(name="supplierId",insertable=false,updatable=false)
 	private Supplier supplier;
-	
+
 	@ManyToOne
 	@JoinColumn(name="categoryId",insertable=false,updatable=false)
 	private Category category;
-    
+
 	//Getters and Setters for instance variables
 	public int getProductId() {
 		return productId;
@@ -162,12 +171,12 @@ public class Product {
 		this.imgName1 = imgName1;
 	}
 
-	
-	
-	
-	
-	
-	
-    	
+
+
+
+
+
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.amzukastore.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,32 +16,37 @@ import javax.persistence.OneToMany;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class Category {
+public class Category implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2689468257932294755L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
 	private int categoryId;
-	
+
 	@NotEmpty(message="Category Name is mandatory")
 	private String categoryName;
-	
+
 	@NotEmpty(message="Category Description is mandatory")
-    private String categoryDesc;
-   
-    //uni-directional mapping with Product class
-    @OneToMany(mappedBy="category",cascade=CascadeType.REMOVE,fetch=FetchType.EAGER)
-    private List<Product> productList=new ArrayList<>();
-	
-    //Getters and Setters for instance variables
-    public int getCategoryId() {
+	private String categoryDesc;
+
+	//uni-directional mapping with Product class
+	@OneToMany(mappedBy="category",cascade=CascadeType.REMOVE,fetch=FetchType.EAGER)
+	private List<Product> productList=new ArrayList<>();
+
+	//Getters and Setters for instance variables
+	public int getCategoryId() {
 		return categoryId;
 	}
-    
-    public void setCategoryId(int categoryId) {
+
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
-    
+
 	public String getCategoryName() {
 		return categoryName;
 	}
@@ -59,9 +65,9 @@ public class Category {
 	public void setProductList(List<Product> productList) {
 		this.productList = productList;
 	}
-	
-    
-	
-    
-    
+
+
+
+
+
 }

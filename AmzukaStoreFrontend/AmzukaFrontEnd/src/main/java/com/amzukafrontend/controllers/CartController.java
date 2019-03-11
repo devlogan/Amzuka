@@ -10,10 +10,12 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,39 +39,40 @@ import com.amzukastore.models.customerdetails.Orders;
 @Controller
 public class CartController {
 
-private String customerEmail;
-	
+	private String customerEmail;
+
 	@Autowired
 	CartDao cartDao;
-	
+
 	@Autowired
 	CustomerDao customerDao;
-	
+
 	@Autowired
 	ProductDao productDao;
-	
+
 	@Autowired
 	ItemDao itemDao;
-	
+
 	@Autowired
 	HttpSession session;
-	
+
 	@Autowired
 	OrderItemsDao orderItemDao;
 
 	Customer customerObj;
-	
+
 	ModelAndView mv;
-	
-	
+
+
+
 	@ModelAttribute
 	public void getUserEmail(HttpServletRequest request){
 		Principal p=request.getUserPrincipal();
 		customerEmail=p.getName();
 		customerObj=customerDao.getCustomer(customerEmail);
 	}
-	
-	
+
+
 	@RequestMapping(value="/addToCart/{productId}",method=RequestMethod.GET)
 	public String addToCart(@PathVariable("productId")int productId){
 		Cart cartObj=cartDao.getCartByCustomer(customerEmail);
@@ -77,7 +80,7 @@ private String customerEmail;
 			System.out.println("Cart doesnt exist");
 			cartObj=new Cart();
 			cartObj.setCustomer(customerDao.getCustomer(customerEmail));
-			
+
 			cartDao.addCart(cartObj);
 			System.out.println("Cart created succesfully");
 		}
@@ -87,18 +90,18 @@ private String customerEmail;
 
 		Product pObj=productDao.getProductById(productId);
 		Item itemObj=itemDao.getItemByProductIdAndCustomerId(pObj.getProductId(),customerEmail);
-		
+
 		if(itemObj==null)
 		{
-		itemObj=new Item();
-		itemObj.setCart(cartObj);
-		itemObj.setCustomerId(customerEmail);
-		itemObj.setPrice(pObj.getPrice());
-		itemObj.setProduct(pObj);
-		itemObj.setQuantity(1);
-		
-		itemDao.addItem(itemObj);
-		System.out.println("Item added in cart");
+			itemObj=new Item();
+			itemObj.setCart(cartObj);
+			itemObj.setCustomerId(customerEmail);
+			itemObj.setPrice(pObj.getPrice());
+			itemObj.setProduct(pObj);
+			itemObj.setQuantity(1);
+
+			itemDao.addItem(itemObj);
+			System.out.println("Item added in cart");
 		}
 		else {
 			itemDao.increaseQuantity(itemObj.getItemId());
@@ -107,100 +110,139 @@ private String customerEmail;
 		//return "redirect:/viewCart?cartId="+cartObj.getCartId();
 		return "redirect:/viewCart";
 	}
-	
+
 	@RequestMapping(value="viewCart",method=RequestMethod.GET)
 	public ModelAndView getCart(@RequestParam(name="addrId",required=false)Integer addressId){
-		
+
 		Cart cartObj=cartDao.getCartByCustomer(customerEmail);
 		Collection<Item> itemslist=cartObj.getItems();
-		
+
 		mv=new ModelAndView("Cart");
 		int count=0;
-		
+
 		if(itemslist.size()==0){
 			mv.addObject("msg","Dear Customer , You cart is empty..");
 			return mv;
 		}
 		else {
-		
-		double sum=0;
-		
-		for(Item item:itemslist){
-			sum=sum+(item.getPrice()*item.getQuantity());
-			count=count+item.getQuantity();
-		}
-		session.setAttribute("itemsCount",count);
-		mv.addObject("cartItems",itemslist);
-		mv.addObject("totalCost",sum);
-		return mv; 
+
+			double sum=0;
+
+			for(Item item:itemslist){
+				sum=sum+(item.getPrice()*item.getQuantity());
+				count=count+item.getQuantity();
+			}
+			session.setAttribute("itemsCount",count);
+			mv.addObject("cartItems",itemslist);
+			mv.addObject("totalCost",sum);
+			return mv; 
 		}
 	}
-	
-	
+
+
 	@RequestMapping(value="increaseQuantity/{itemId}",method=RequestMethod.GET)
 	public String increase(@PathVariable("itemId") int itemId,ModelMap map){
-		
+
 		Item item=itemDao.getItemById(itemId) ;
 		Product product=item.getProduct();
-		
+
 		if(item.getQuantity()<product.getQuantity()) {
-		itemDao.increaseQuantity(itemId);
+			itemDao.increaseQuantity(itemId);
 		}
 		else {
 			map.addAttribute("status","out of stock");
 		}
-		
+
 		return "redirect:/viewCart";
 	}
-	
+
 	@RequestMapping(value="decreaseQuantity/{itemId}",method=RequestMethod.GET)
-	public String decrease(@PathVariable int itemId){
-		
-	    Item item=itemDao.getItemById(itemId);
-	    if(item.getQuantity()>1) {
-		itemDao.decreaseQuantity(itemId);
-	    }
-	    else
-	    {
-	    itemDao.deleteItem(itemId);
-	    }
+	public String decrease(@PathVariable int itemId,@RequestParam(name="deleteItem",required=false)int deleteItem){
+
+		Item item=itemDao.getItemById(itemId);
+		if(item.getQuantity()>1 && deleteItem==0) {
+			itemDao.decreaseQuantity(itemId);
+		}
+		if(deleteItem==1)
+		{
+			itemDao.deleteItem(itemId);
+		}
 		return "redirect:/viewCart";
 	}
-	
-	
+
+
 	@RequestMapping(value="getAddressPage",method=RequestMethod.GET)
 	public ModelAndView getAddressPage(){
 		Set<Address> addrs=customerObj.getAddressList();
-		
+
 		ModelAndView mv=new ModelAndView("AddressPage");
 		if(addrs.size()!=0){
-		mv.addObject("addressList",addrs);
+			mv.addObject("addressList",addrs);
 		}
-		
+
 		mv.addObject("addressObj",new Address());
 		return mv;
 	}
 
-	
+
 	@RequestMapping(value="addAddress",method=RequestMethod.POST)
 	public String addAddress(@ModelAttribute("addressObj")Address address ){
 
-	address.setCustomer(customerObj);
-	System.out.println(address.getCustomer());
-	customerDao.addAddress(address);
-	return "redirect:getAddressPage";	
+		address.setCustomer(customerObj);
+		System.out.println(address.getCustomer());
+		customerDao.addAddress(address);
+		return "redirect:getAddressPage";	
 	}
-	
+
+	@RequestMapping(value="deleteAddress", method=RequestMethod.GET)
+	public String deleteAddress(@RequestParam("addrId")int addressId) {
+
+		Address address=customerDao.getAddressById(addressId);
+		customerDao.deleteAddress(address);
+
+		return "redirect:/getAddressPage";
+
+	}
+
+	@RequestMapping(value="updateAddress", method=RequestMethod.GET)
+	public ModelAndView updateAddress(@RequestParam("addrId")int addressId) {
+
+		Address address=customerDao.getAddressById(addressId);
+		mv=new ModelAndView("AddressPage");
+		mv.addObject("addressObj",address);
+		mv.addObject("update",1);
+
+		return mv;
+	}
+
+	@RequestMapping(value="/updateAddressProcess",method=RequestMethod.POST)
+	public ModelAndView updateAdressProcess(@Valid @ModelAttribute("addressObj")Address address , BindingResult result) {
+
+		if(result.hasErrors()){
+			mv=new ModelAndView("AddressPage");
+
+		}
+
+		else {
+			customerDao.updateAddress(address);
+			mv=new ModelAndView("redirect:/getAddressPage");
+			mv.addObject("message","Updated Successfully");
+		}
+
+		return mv;
+
+	}
+
 	@RequestMapping(value="/confirmationPage",method=RequestMethod.GET)
 	public ModelAndView showConfirmationPage(@RequestParam("address")int addressId){
 		double sum=0;
-		
+
 		System.out.println("I m show confirmation page");
-		
+
 		Cart cartObj=cartDao.getCartByCustomer(customerEmail);
 		int cartId=cartObj.getCartId();
 		Collection<Item> itemslist=itemDao.getItemsListByCart(cartId);
-		
+
 		for(Item item:itemslist){
 			sum=sum+(item.getPrice()*item.getQuantity());
 		}
@@ -209,64 +251,57 @@ private String customerEmail;
 		mv.addObject("cartItems",itemslist);
 		mv.addObject("totalCost",sum);
 		return mv;
-		
+
 	}
-	
+
 
 	@RequestMapping(value="/paymentPage",method=RequestMethod.GET)
 	public ModelAndView paymentProcess(){
-    
-	ModelAndView mv=new ModelAndView("Payment");
-	mv.addObject("customerObj", customerDao.getCustomer(customerEmail));
-	return mv;	
+
+		ModelAndView mv=new ModelAndView("Payment");
+		mv.addObject("customerObj", customerDao.getCustomer(customerEmail));
+		return mv;	
 	}
-	
+
 	@RequestMapping(value="/successfulPage",method=RequestMethod.POST)
 	public ModelAndView successfulPageProcess(@ModelAttribute(name="customerObj" )Customer customer){
-    
-	ModelAndView mv=new ModelAndView("SuccessPage");
-	System.out.println("hello1");
-	customerDao.updateCustomer(customer);
-	
-	System.out.println("hello2");
-    Cart cart=cartDao.getCartByCustomer(customerEmail);
-    
-    System.out.println("hello3");
-    Orders orders=new Orders();
-    orders.setCustomer(customerDao.getCustomer(customerEmail));
-    orders.setDate(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-    customerDao.addOrders(orders);
-    
-    System.out.println("hello4");
-    OrderItems orderItems=new OrderItems();
-    
-    System.out.println("hello5");
-    List<OrderItems> orderItemsList=new ArrayList<OrderItems>();
-    List<Item> itemslist=(List<Item>) cart.getItems();
-    
-    System.out.println("hello6");
-    for(Item item:itemslist) {
-	
-	orderItems.setCustomerId(item.getCustomerId());
-	orderItems.setOrders(orders);
-	orderItems.setPrice(item.getPrice());
-	orderItems.setQuantity(item.getQuantity());
-	orderItems.setProduct(item.getProduct());
-	
-	orderItemDao.addOrderItems(orderItems);
-	
-	orderItemsList.add(orderItems);
-	
-	Product pro=item.getProduct();
-	pro.setQuantity(pro.getQuantity()-item.getQuantity());
-	productDao.updateProduct(pro);
-	System.out.println("hello7");
-    }
-	
-    cartDao.deleteCart(cart.getCartId());
-    System.out.println("hello8");
-	return mv;	
+
+		ModelAndView mv=new ModelAndView("SuccessPage");
+		customerDao.updateCustomer(customer);
+
+		Cart cart=cartDao.getCartByCustomer(customerEmail);
+
+		Orders orders=new Orders();
+		orders.setCustomer(customerDao.getCustomer(customerEmail));
+		orders.setDate(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+		customerDao.addOrders(orders);
+
+		OrderItems orderItems=new OrderItems();
+
+		List<OrderItems> orderItemsList=new ArrayList<OrderItems>();
+		List<Item> itemslist=(List<Item>) cart.getItems();
+
+		for(Item item:itemslist) {
+
+			orderItems.setCustomerId(item.getCustomerId());
+			orderItems.setOrders(orders);
+			orderItems.setPrice(item.getPrice());
+			orderItems.setQuantity(item.getQuantity());
+			orderItems.setProduct(item.getProduct());
+
+			orderItemDao.addOrderItems(orderItems);
+
+			orderItemsList.add(orderItems);
+
+			Product pro=item.getProduct();
+			pro.setQuantity(pro.getQuantity()-item.getQuantity());
+			productDao.updateProduct(pro);
+		}
+
+		cartDao.deleteCart(cart.getCartId());
+
+		return mv;	
 	}
-	
-	
+
+
 }

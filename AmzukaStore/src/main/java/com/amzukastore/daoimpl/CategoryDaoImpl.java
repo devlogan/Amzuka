@@ -16,17 +16,17 @@ import com.amzukastore.models.Product;
 @Repository("categoryDao")
 @Transactional
 public class CategoryDaoImpl implements CategoryDao {
-	
+
 	@Autowired
 	SessionFactory sessionFactory;
 
-	
+
 	@Override
 	public boolean addCategory(Category category) {
 		try{
-		Session session=sessionFactory.getCurrentSession();
-		session.save(category);
-		return true;
+			Session session=sessionFactory.getCurrentSession();
+			session.save(category);
+			return true;
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -40,12 +40,12 @@ public class CategoryDaoImpl implements CategoryDao {
 			Session session=sessionFactory.getCurrentSession();
 			session.delete(category);
 			return true;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-				return false;
-			}
-	
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 
 	@Override
@@ -54,11 +54,11 @@ public class CategoryDaoImpl implements CategoryDao {
 			Session session=sessionFactory.getCurrentSession();
 			session.update(category);
 			return true;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			return false;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override
@@ -67,10 +67,10 @@ public class CategoryDaoImpl implements CategoryDao {
 			Session session=sessionFactory.getCurrentSession();
 			Category category=session.get(Category.class, categoryId);
 			return category;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -80,15 +80,15 @@ public class CategoryDaoImpl implements CategoryDao {
 			Session session=sessionFactory.getCurrentSession();
 			Query query=session.createQuery("from Category");
 			return query.getResultList();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return null;
 	}
 
-	
-	
+
+
 
 
 }

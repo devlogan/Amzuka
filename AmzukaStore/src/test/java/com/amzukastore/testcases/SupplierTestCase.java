@@ -14,41 +14,41 @@ import com.amzukastore.models.Supplier;
 
 public class SupplierTestCase {
 
-	
-static SupplierDao supplierDao;
-	
+
+	static SupplierDao supplierDao;
+
 	@BeforeClass
 	public static void init() {
-		
+
 		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
 		context.register(DBConfig.class);
 		context.refresh();
-		
+
 		System.out.println("hello");
-		
+
 		supplierDao=context.getBean("supplierDao",SupplierDao.class);
 		System.out.println(supplierDao);
 		//System.out.println("hello");
 	}
-	
+
 	@Test
 	@Ignore
 	public void testAddSupplier() {
-		
+
 		Supplier supplier=new Supplier();
 		supplier.setSupplierName("Bada Bhai");
 		supplier.setSupplierAdd("selling garments");
-		
+
 		Boolean r=supplierDao.addSupplier(supplier);
 		System.out.println("hello");
 		assertTrue("not added", r);
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	@Test
 	@Ignore
 	public void test() {

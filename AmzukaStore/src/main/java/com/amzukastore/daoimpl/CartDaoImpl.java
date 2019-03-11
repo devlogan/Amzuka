@@ -21,16 +21,16 @@ public class CartDaoImpl implements CartDao {
 
 	@Autowired
 	SessionFactory sessionFactory;
-	
+
 	@Override
 	public boolean addCart(Cart cart) {
 		try
 		{
-			
+
 			Session session=sessionFactory.getCurrentSession();
 			session.save(cart);
 			return true;
-			
+
 		}
 		catch(Exception e)
 		{
@@ -49,9 +49,9 @@ public class CartDaoImpl implements CartDao {
 			List<Cart> list=query.list();
 			System.out.println("list : "+list);
 			if(list.size()!=0){
-			return list.get(0);
+				return list.get(0);
 			}
-			 
+
 		}
 		catch(Exception e)
 		{
@@ -64,7 +64,7 @@ public class CartDaoImpl implements CartDao {
 	public boolean deleteCart(int cartId) {
 		try
 		{
-			
+
 			Session session=sessionFactory.getCurrentSession();
 			Cart obj=session.get(Cart.class,cartId);
 			session.delete(obj);

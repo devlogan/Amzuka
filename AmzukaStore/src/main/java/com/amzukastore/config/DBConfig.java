@@ -51,7 +51,7 @@ public class DBConfig {
 		of new records and updating / deletion of existing records. 
 		The most basic of them is using class 
 		org.springframework.jdbc.datasource.DriverManagerDataSource
-		*/
+		 */
 		DriverManagerDataSource dataSource=new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.h2.Driver");
 		dataSource.setUrl("jdbc:h2:tcp://localhost/~/dev_pc");
@@ -62,7 +62,7 @@ public class DBConfig {
 
 	@Bean(name="sessionFactory")
 	public SessionFactory getSessionFactory(){
-		
+
 		/*Properties is  a class  of java.util package
 		 in properties, we  will map the hibernate
 		 related properties*/
@@ -70,7 +70,7 @@ public class DBConfig {
 		prop.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 		prop.put("hibernate.show_sql",true);
 		prop.put("hibernate.hbm2ddl.auto", "update");
-		
+
 		/*LocalSessionFactoryBuilder  is a Spring-provided extension of 
 		 * the standard Hibernate {Configuration} class,
 		 */
@@ -88,25 +88,25 @@ public class DBConfig {
 		builder.addAnnotatedClass(CardDetails.class);
 		builder.addAnnotatedClass(Orders.class);
 		builder.addAnnotatedClass(OrderItems.class);
-		
-		
+
+
 		SessionFactory sessionFactory=builder.buildSessionFactory();
 		return sessionFactory;
 	}
-	
+
 	@Bean(name="transactionManager")
 	@Autowired
 	public HibernateTransactionManager getHibernateTransactionManager(SessionFactory sessionFactory){
 		HibernateTransactionManager txManager=new HibernateTransactionManager(sessionFactory);
 		return txManager;
 	}
-	
+
 	@Bean(name="passwordEncoder")
 	public PasswordEncoder passwordEncoder(){
 		System.out.println("inside password encoder"); 
 		return new BCryptPasswordEncoder();
 	}
-	
+
 }
 
 

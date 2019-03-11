@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h2 style="color: red">Access Denied For This Page!!!Go Back to <a href="${rootdir}">homepage</a></h2>
+	<h2 style="color: red">
+		Access Denied For This Page!!!Go Back to <a href="${rootdir}">homepage</a>
+	</h2>
 </body>
 </html>

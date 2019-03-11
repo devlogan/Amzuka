@@ -26,75 +26,75 @@ import com.amzukastore.models.Supplier;
 @Controller
 public class IndexController {
 
-        
-	    
-        @Autowired
-        HttpSession session;
-        @Autowired
-        CategoryDao categoryDao;
-        @Autowired
-        SupplierDao supplierDao;
-        
-        @Autowired
-        CartDao cartDao;
 
-    	@Autowired
-    	HttpServletRequest request;
-    	
-    	@Autowired
-    	CustomerDao customerDao;
-		
-		@RequestMapping(value="/",method=RequestMethod.GET)
-		public ModelAndView getHomePage(){
-			
-			Principal p=request.getUserPrincipal();
-			if(p==null){
-				System.out.println("principal is null");
-			
-			}
-			else {
-				int count=0;
-				String email=p.getName();
-				System.out.println(email);
-				Customer customer=customerDao.getCustomer(email);
-				
-				session.setAttribute("customerObj",customer);
-				System.out.println("hello1");
-				Cart cart=cartDao.getCartByCustomer(email);
-				System.out.println("check");
-				
-				if(cart!=null) {
+
+	@Autowired
+	HttpSession session;
+	@Autowired
+	CategoryDao categoryDao;
+	@Autowired
+	SupplierDao supplierDao;
+
+	@Autowired
+	CartDao cartDao;
+
+	@Autowired
+	HttpServletRequest request;
+
+	@Autowired
+	CustomerDao customerDao;
+
+	@RequestMapping(value="/",method=RequestMethod.GET)
+	public ModelAndView getHomePage(){
+
+		Principal p=request.getUserPrincipal();
+		if(p==null){
+			System.out.println("principal is null");
+
+		}
+		else {
+			int count=0;
+			String email=p.getName();
+			System.out.println(email);
+			Customer customer=customerDao.getCustomer(email);
+
+			session.setAttribute("customerObj",customer);
+			System.out.println("hello1");
+			Cart cart=cartDao.getCartByCustomer(email);
+			System.out.println("check");
+
+			if(cart!=null) {
 				Collection<Item> items=cart.getItems();
 				for(Item it:items){
 					System.out.println("hello3");
 					count=count+it.getQuantity();
 				}
-				}
-				System.out.println("hello4");
-				session.setAttribute("itemsCount",count);
-				
 			}
-			System.out.println("hello5");
-			List<Category> categoryList=categoryDao.listCategories();
-			List<Supplier> supplierList=supplierDao.listSuppliers();
-		
-			session.setAttribute("categoryList",categoryList);
-			session.setAttribute("supplierList", supplierList);
-			System.out.println(session.getAttribute("itemsCount"));
-			ModelAndView mv=new ModelAndView("index");
-			System.out.println(mv);
-			return mv;
+			System.out.println("hello4");
+			session.setAttribute("itemsCount",count);
+
 		}
-		
-		/*@RequestMapping(value="/**",method=RequestMethod.GET)
+		System.out.println("hello5");
+		List<Category> categoryList=categoryDao.listCategories();
+		List<Supplier> supplierList=supplierDao.listSuppliers();
+
+		session.setAttribute("categoryList",categoryList);
+		session.setAttribute("supplierList", supplierList);
+		System.out.println(session.getAttribute("itemsCount"));
+		ModelAndView mv=new ModelAndView("index");
+		System.out.println(mv);
+		return mv;
+	}
+
+	/*@RequestMapping(value="/**",method=RequestMethod.GET)
 		public ModelAndView getErrorPage(){
-			
-			
+
+
 			ModelAndView mv=new ModelAndView("index");
 			mv.addObject("message", "This Page doesn't exist, just like Santa.");
 			return mv;
 		} */	
-	
-	
+
+
 
 }

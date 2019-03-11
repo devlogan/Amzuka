@@ -19,7 +19,7 @@ public class ItemDaoImpl implements ItemDao {
 
 	@Autowired
 	SessionFactory sessionFactory;
-	
+
 	@Override
 	public boolean addItem(Item item) {
 		try
@@ -27,13 +27,13 @@ public class ItemDaoImpl implements ItemDao {
 			Session session=sessionFactory.getCurrentSession();
 			session.save(item);
 			return true;
-			
+
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
 
@@ -56,13 +56,13 @@ public class ItemDaoImpl implements ItemDao {
 	public boolean deleteItem(int itemId) {
 		try
 		{
-			
+
 			Session session=sessionFactory.getCurrentSession();
 			Item obj=session.get(Item.class, itemId);
 			session.delete(obj);
 			return true;
-			
-			
+
+
 		}
 		catch(Exception e)
 		{
@@ -75,7 +75,7 @@ public class ItemDaoImpl implements ItemDao {
 	public Item getItemByProductIdAndCustomerId(int productId, String customerEmail) {
 		try
 		{
-			
+
 			Session session=sessionFactory.getCurrentSession();
 			Query query=session.createQuery("from Item where productId=:pId and customerId=:cId");
 			query.setInteger("pId",productId);
@@ -101,7 +101,7 @@ public class ItemDaoImpl implements ItemDao {
 			query.setInteger("id",cartId);
 			List<Item> getItemsListByCart=query.list();
 			return getItemsListByCart;
-			
+
 		}
 		catch(Exception e)
 		{
@@ -114,7 +114,7 @@ public class ItemDaoImpl implements ItemDao {
 	public boolean increaseQuantity(int itemId) {
 		try
 		{
-			
+
 			Session session=sessionFactory.getCurrentSession();
 			Item itemObj=session.get(Item.class,itemId);
 			itemObj.setQuantity(itemObj.getQuantity()+1);
@@ -135,7 +135,7 @@ public class ItemDaoImpl implements ItemDao {
 			Session session=sessionFactory.getCurrentSession();
 			Item itemObj=session.get(Item.class, itemId);
 			itemObj.setQuantity(itemObj.getQuantity()-1);
-			
+
 			if(itemObj.getQuantity()==0){
 				return false;
 			}
@@ -153,12 +153,12 @@ public class ItemDaoImpl implements ItemDao {
 	public Item getItemById(int itemId) {
 		try{
 			Session session=sessionFactory.getCurrentSession();
-			
+
 			return session.get(Item.class, itemId);
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return null;
 	}
 

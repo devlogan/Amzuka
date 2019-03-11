@@ -1,5 +1,6 @@
 package com.amzukastore.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,26 +16,26 @@ import javax.persistence.OneToMany;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class Supplier {
-	
-	@Override
-	public String toString() {
-		return "Supplier [supplierId=" + supplierId + ", supplierName=" + supplierName + ", supplierDesc="
-				+ supplierAdd + ", productList=" + productList + "]";
-	}
+public class Supplier implements Serializable {
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 14675350914829019L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
 	private int supplierId;
-	 
+
 	@NotEmpty(message="Supplier Name is mandatory")
 	private String supplierName;
-	
+
 	@NotEmpty(message="Supplier Address is mandatory")
 	private String supplierAdd;
 
-	
+
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="supplier",fetch=FetchType.EAGER)
 	private List<Product> productList=new ArrayList<>();
 
@@ -42,7 +43,7 @@ public class Supplier {
 	public int getSupplierId() {
 		return supplierId;
 	}
-	
+
 	public void setSupplierId(int supplierId) {
 		this.supplierId = supplierId;
 	}
@@ -70,8 +71,8 @@ public class Supplier {
 	public void setProductList(List<Product> productList) {
 		this.productList = productList;
 	}
-    
-	
+
+
 
 
 }

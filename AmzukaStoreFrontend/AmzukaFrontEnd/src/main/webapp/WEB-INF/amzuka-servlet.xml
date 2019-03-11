@@ -36,6 +36,16 @@
 		<property name="basename" value="classpath:message" />
 		<property name="defaultEncoding" value="UTF-8" />
 </bean>
+<bean id="simpleMappingExceptionResolver"
+	class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<map>
+				<entry key="generic_error" value="\error\generic_error"/>
+				<entry key="generic_error2" value="\error\generic_error2"/>
+			</map>
+		</property>
+		<property name="defaultErrorView" value="Exception"/>	
+	</bean>
 	
 
 </beans>

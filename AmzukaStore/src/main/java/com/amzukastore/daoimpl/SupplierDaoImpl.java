@@ -20,16 +20,16 @@ public class SupplierDaoImpl implements SupplierDao {
 
 	@Autowired
 	SessionFactory sessionFactory;
-	
+
 	@Override
 	public boolean addSupplier(Supplier supplier) {
-		
-       try {
-			
+
+		try {
+
 			Session session=sessionFactory.getCurrentSession();
 			session.save(supplier);
 			return true;
-			
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -39,29 +39,29 @@ public class SupplierDaoImpl implements SupplierDao {
 
 	@Override
 	public boolean deleteSupplier(Supplier supplier) {
-		 
+
 		try {
-				
-				Session session=sessionFactory.getCurrentSession();
-				session.delete(supplier);
-				return true;
-				
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
+
+			Session session=sessionFactory.getCurrentSession();
+			session.delete(supplier);
+			return true;
+
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean updateSupplier(Supplier supplier) {
-		
+
 		try {
-			
+
 			Session session=sessionFactory.getCurrentSession();
 			session.update(supplier);
 			return true;
-			
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -71,30 +71,30 @@ public class SupplierDaoImpl implements SupplierDao {
 
 	@Override
 	public Supplier getSupplier(int supplierId) {
-		
+
 		try{
 			Session session=sessionFactory.getCurrentSession();
 			Supplier supplier=session.get(Supplier.class, supplierId);
 			return supplier;
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public List<Supplier> listSuppliers() {
-		
+
 		try{
 			Session session=sessionFactory.getCurrentSession();
 			Query query=session.createQuery("from Supplier");
 			return query.getResultList();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-		
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 

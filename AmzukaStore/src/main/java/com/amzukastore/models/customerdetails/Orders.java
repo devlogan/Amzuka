@@ -1,5 +1,6 @@
 package com.amzukastore.models.customerdetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -17,18 +18,23 @@ import com.amzukastore.models.Customer;
 
 @Entity
 @Table(name="Customer_Orders")
-public class Orders {
+public class Orders implements Serializable{
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7378801565222356844L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-    private int orderId;
-	
+	private int orderId;
+
 	@OneToOne
 	private Customer customer;
 
 	private String date;
-	
+
 	@OneToMany(cascade=CascadeType.REMOVE,fetch=FetchType.EAGER,mappedBy="orders")
 	Collection<OrderItems> items=new ArrayList<>();
 
@@ -61,7 +67,7 @@ public class Orders {
 	public void setItems(Collection<OrderItems> items) {
 		this.items = items;
 	}
-	
+
 	public String getDate() {
 		return date;
 	}
@@ -70,5 +76,5 @@ public class Orders {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+
 }

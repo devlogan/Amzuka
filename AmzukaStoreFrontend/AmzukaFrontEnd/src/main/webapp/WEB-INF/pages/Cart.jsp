@@ -1,105 +1,135 @@
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<link
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!------ Include the above in your HEAD tag ---------->
 
+<script>
+	var myFun = function() {
+		window.location = "${rootdir}/getAddressPage";
+	}
+</script>
 
-<jsp:include page="header.jsp"/>
-<div class="container">
+<jsp:include page="header.jsp" />
 
-	<c:choose>
-		<c:when test="${not empty msg}">
-			${msg}
-		</c:when>
-		<c:otherwise>
-		
-    <div class="row">
-        <div class="col-sm-12 col-md-10 col-md-offset-1">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th class="text-center">Price</th>
-                        <th class="text-center">Total</th>
-                        <th> </th>
-                    </tr>
-                </thead>
-                <tbody>
-                	<c:forEach items="${cartItems}" var="item">
-                    <tr>
-                        <td class="col-sm-8 col-md-6">
-                        <div class="media">
-                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="${images}/${item.product.imgName}" style="width: 72px; height: 72px;"> </a>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#">${item.product.productName}</a></h4>
-                                <c:choose>
-                                <c:when test="${item.quantity<item.product.quantity}">
-                                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
-                                </c:when>
-                                <c:otherwise>
-                                <span>Status: </span><span class="text-danger"><strong>Out Of Stock</strong></span>
-                                </c:otherwise>
-                                </c:choose>
-                            </div>
-                        </div></td>
-                        <td class="col-sm-1 col-md-1" style="text-align: center">
-                        ${item.quantity}
-                        </td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>${item.price}</strong></td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>${item.quantity*item.price}</strong></td>
-                        <td class="col-sm-1 col-md-1">
-                        
-                        <a class="btn btn-primary" href="${rootdir}/increaseQuantity/${item.itemId}">+</a>
-                       	<a class="btn btn-primary" href="${rootdir}/decreaseQuantity/${item.itemId}">-</a>
-                        
-                        
-                        </td>
-                    </tr>
-                    </c:forEach>
-                    <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td><h5>Subtotal</h5></td>
-                        <td class="text-right"><h5><strong>${totalCost}</strong></h5></td>
-                    </tr>
-                    <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td><h5>Estimated shipping</h5></td>
-                        <td class="text-right"><h5><strong>200</strong></h5></td>
-                    </tr>
-                    <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td><h3>Total</h3></td>
-                        <td class="text-right"><h3><strong>${totalCost+200}</strong></h3></td>
-                    </tr>
-                    <tr>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>   </td>
-                        <td>
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                        </button></td>
-                        <td>
-                        <a href="${rootdir}/getAddressPage" class="btn btn-success">
-                            Checkout <span class="glyphicon glyphicon-play"></span>
-                        </a></td>
-                    </tr>
-                </tbody>
-            </table>
+<c:if test="${msg!=null}">
+	<div class="row cart-wrapper">
+		<h1 class="panel-heading text-center">Empty Cart</h1>
+	</div>
+</c:if>
 
-        </div>
-        </div>
-        </c:otherwise>
-	</c:choose>
-    </div>
-    
+<c:if test="${msg==null}">
+	<div class="row cart-wrapper">
+		<br>
+		<div class="col-md-12">
 
-<jsp:include page="footer.jsp"/>
+			<div class="col-md-8 col-sm-6 col-xs-12">
+				<!--SHIPPING METHOD-->
+				<div class="panel panel-default cart-class">
+					<div class="panel-heading text-center heading-font">
+						<h4>Current Cart</h4>
+					</div>
+					<div class="panel-body">
+						<c:forEach items="${cartItems}" var="item">
+							<table class="table borderless">
+								<thead>
+									<tr>
+										<td class="content-font"><strong>Your Cart: #
+												item</strong></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="col-md-3">
+											<div class="media content-font">
+												<a class="thumbnail pull-left" href="#"> <img
+													class="media-object"
+													src="${images}/${item.product.imgName}"
+													style="width: 72px; height: 72px;">
+												</a>
+												<div class="media-body">
+													<h5 class="media-headings">${item.product.productName}</h5>
+													<c:choose>
+														<c:when test="${item.quantity<item.product.quantity}">
+															<span class="text-success"><strong>In
+																	Stock</strong></span>
+														</c:when>
+														<c:otherwise>
+															<span class="text-danger"><strong>Out Of
+																	Stock</strong></span>
+														</c:otherwise>
+													</c:choose>
+												</div>
+											</div>
+										</td>
+										<td class="text-center content-font">${item.price}</td>
+										<td class="text-center content-font"><span
+											class="inc-dec"> <a class="btn dec-btn content-font"
+												href="${rootdir}/decreaseQuantity/${item.itemId}?deleteItem=0">-</a>${item.quantity}
+												<a class="btn inc-btn content-font"
+												href="${rootdir}/increaseQuantity/${item.itemId}">+</a>
+										</span></td>
+										<td class="text-right content-font">${item.quantity*item.price}</td>
+										<td class="text-right"><a
+											href="${rootdir}/decreaseQuantity/${item.itemId}?deleteItem=1"
+											type="button" class="btn btn-danger"> <i
+												class="fa fa-trash-o"></i>
+										</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 ">
+				<!--REVIEW ORDER-->
+				<div class="panel panel-default cart-class">
+					<div class="panel-heading text-center heading-font">
+						<h4>Review Order</h4>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-12">
+							<strong>Subtotal (# item)</strong>
+							<div class="pull-right content-font">
+								<span>$</span><span>${totalCost}</span>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<small>Shipping</small>
+							<div class="pull-right content-font">
+								<span>200</span>
+							</div>
+							<hr>
+						</div>
+						<div class="col-md-12">
+							<strong>Order Total</strong>
+							<div class="pull-right content-font">
+								<span>$</span><span>${totalCost+200}</span>
+							</div>
+							<hr>
+						</div>
+
+						<button type="button" onClick="myFun()"
+							class="btn btn-lg btn-block content-font checkout-color">Checkout</button>
+
+					</div>
+
+				</div>
+				<!--REVIEW ORDER END-->
+
+			</div>
+		</div>
+	</div>
+</c:if>
+
+
+
+<jsp:include page="footer.jsp" />

@@ -1,5 +1,6 @@
 package com.amzukastore.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -15,50 +16,55 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Cart_Table")
-public class Cart {
-	
-	
-		
-		@Id
-		@GeneratedValue(strategy=GenerationType.AUTO)
-	    private int cartId;
-		
-		@OneToOne
-		private Customer customer;
-
-		
-		@OneToMany(cascade=CascadeType.REMOVE,fetch=FetchType.EAGER,mappedBy="cart")
-		Collection<Item> items=new ArrayList<>();
+public class Cart implements Serializable{
 
 
-		public int getCartId() {
-			return cartId;
-		}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8436036990086428048L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int cartId;
+
+	@OneToOne
+	private Customer customer;
 
 
-		public void setCartId(int cartId) {
-			this.cartId = cartId;
-		}
+	@OneToMany(cascade=CascadeType.REMOVE,fetch=FetchType.EAGER,mappedBy="cart")
+	Collection<Item> items=new ArrayList<>();
 
 
-		public Customer getCustomer() {
-			return customer;
-		}
+	public int getCartId() {
+		return cartId;
+	}
 
 
-		public void setCustomer(Customer customer) {
-			this.customer = customer;
-		}
+	public void setCartId(int cartId) {
+		this.cartId = cartId;
+	}
 
 
-		public Collection<Item> getItems() {
-			return items;
-		}
+	public Customer getCustomer() {
+		return customer;
+	}
 
 
-		public void setItems(Collection<Item> items) {
-			this.items = items;
-		}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
-        
+
+	public Collection<Item> getItems() {
+		return items;
+	}
+
+
+	public void setItems(Collection<Item> items) {
+		this.items = items;
+	}
+
+
 }

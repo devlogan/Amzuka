@@ -6,6 +6,6 @@ public interface CartDao {
 
 	public boolean addCart(Cart cart);
 	public Cart getCartByCustomer(String customerEmail);
-    public boolean deleteCart(int cartId);
-	
+	public boolean deleteCart(int cartId);
+
 }

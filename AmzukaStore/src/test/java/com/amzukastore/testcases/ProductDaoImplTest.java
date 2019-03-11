@@ -15,27 +15,27 @@ import com.amzukastore.dao.ProductDao;
 import com.amzukastore.models.Product;
 
 public class ProductDaoImplTest {
-    
+
 	static ProductDao productDao;
-	
+
 	@BeforeClass
 	public static void init() {
-		
+
 		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
 		context.register(DBConfig.class);
 		context.refresh();
-		
+
 		System.out.println("hello");
-		
+
 		productDao=context.getBean("productDao",ProductDao.class);
 		System.out.println(productDao);
-		
+
 	}
-	
+
 	@Test
 	//@Ignore
 	public void testAddProduct() {
-		
+
 		Product product=new Product();
 		product.setPrice(3312);
 		product.setProductName("Laptop");
@@ -43,10 +43,10 @@ public class ProductDaoImplTest {
 		product.setRating(3.4);
 		product.setCategoryId(164);
 		product.setSupplierId(166);
-		
+
 		Boolean r=productDao.addProduct(product);
 		assertTrue("not added", r);
-		
+
 	}
 
 	@Test
@@ -70,11 +70,11 @@ public class ProductDaoImplTest {
 	@Test
 	@Ignore
 	public void testGetAllProducts() {
-		
+
 		List<Product> list=productDao.getAllProductsById(162);
 		if(list!=null) {
-		Boolean r=true;
-		assertTrue("not added", r);
+			Boolean r=true;
+			assertTrue("not added", r);
 		}
 	}
 

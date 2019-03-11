@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" isELIgnored="false"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="f" uri="http://www.springframework.org/tags" %>
+	pageEncoding="ISO-8859-1" isELIgnored="false"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="f" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,49 +28,51 @@
 </head>
 
 <body>
-<jsp:include page="header.jsp"/>
-     
-     <c:if test="${not empty message }">
-     <div class="alert alert-success">	
-		${mesasge}
-	 </div> 
-     </c:if>
-     
- <div class="container">
-  <h2>Category List</h2>
-  <p>All the categories you need</p>            
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Category Id</th>
-        <th>Category Name</th>
-        <th>Category Description</th>
-        <th>Operation</th>
-      </tr>
-    </thead>
-    
-    <tbody>
-    <c:forEach items="${categoryList}" var="category">
-      <tr>
-        <td>${category.categoryId}</td>
-        <td>${category.categoryName}</td>
-        <td>${category.categoryDesc}</td>
-        
-          <td><button type="button" onclick="onClickDelete(${category.categoryId})" class="btn btn-default btn-sm a-btn-slide-text">
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          <span><strong></strong></span> 
-         </button>
-        <button type="button" onclick="onClickUpdate(${category.categoryId})" class="btn btn-default btn-sm a-btn-slide-text">
-        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        <span><strong></strong></span> 
-        </button></td>
-      </tr>
-      </c:forEach>
-     </tbody>
-     
-  </table>
-</div>
-     
-     
+	<jsp:include page="header.jsp" />
+
+	<c:if test="${not empty message }">
+		<div class="alert alert-success">${mesasge}</div>
+	</c:if>
+
+	<div class="container">
+		<h2>Category List</h2>
+		<p>All the categories you need</p>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Category Id</th>
+					<th>Category Name</th>
+					<th>Category Description</th>
+					<th>Operation</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:forEach items="${categoryList}" var="category">
+					<tr>
+						<td>${category.categoryId}</td>
+						<td>${category.categoryName}</td>
+						<td>${category.categoryDesc}</td>
+
+						<td><button type="button"
+								onclick="onClickDelete(${category.categoryId})"
+								class="btn btn-default btn-sm a-btn-slide-text">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								<span><strong></strong></span>
+							</button>
+							<button type="button"
+								onclick="onClickUpdate(${category.categoryId})"
+								class="btn btn-default btn-sm a-btn-slide-text">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								<span><strong></strong></span>
+							</button></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+
+		</table>
+	</div>
+
+
 </body>
 </html>

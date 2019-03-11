@@ -1,6 +1,7 @@
 package com.amzukastore.models;
 
-import java.util.HashSet;
+import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,37 +18,42 @@ import com.amzukastore.models.customerdetails.Address;
 import com.amzukastore.models.customerdetails.CardDetails;
 
 @Entity
-public class Customer {
-     
-	 @Id
-	 @Email(message="Unsupported email format")
-	 @NotEmpty(message="Email is required")
-	 private String email;
-	 
-	 @NotEmpty(message="choose a password")
-	 private String password;
-	 
-	 
-	 @Transient
-	 @NotEmpty(message="confirm password")
-	 private String cnfPassword;
-	 
-	 @NotEmpty(message="Name is required")
-	 private String customerName;
-	 
-	 @NotEmpty(message="Mobile is mandatory")
-	 private String mobileNo;
-	 
-	 private String role;
-	 
-	 private boolean enabled;
-	 
-	 
-	 @OneToMany(mappedBy="customer",cascade=CascadeType.REMOVE,fetch=FetchType.EAGER)
-	 private Set<Address> addressList=new HashSet<>();
-	 
-	 private CardDetails cardDetails;
-    
+public class Customer implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4655342778245864391L;
+
+	@Id
+	@Email(message="Unsupported email format")
+	@NotEmpty(message="Email is required")
+	private String email;
+
+	@NotEmpty(message="choose a password")
+	private String password;
+
+
+	@Transient
+	@NotEmpty(message="confirm password")
+	private String cnfPassword;
+
+	@NotEmpty(message="Name is required")
+	private String customerName;
+
+	@NotEmpty(message="Mobile is mandatory")
+	private String mobileNo;
+
+	private String role;
+
+	private boolean enabled;
+
+
+	@OneToMany(mappedBy="customer",cascade=CascadeType.REMOVE,fetch=FetchType.EAGER)
+	private Set<Address> addressList=new LinkedHashSet<>();
+
+	private CardDetails cardDetails;
+
 	//Getters and Setters for instance variables
 	public String getEmail() {
 		return email;
@@ -80,7 +86,7 @@ public class Customer {
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
 	}
-	
+
 	public String getCnfPassword() {
 		return cnfPassword;
 	}
@@ -120,8 +126,8 @@ public class Customer {
 	public void setCardDetails(CardDetails cardDetails) {
 		this.cardDetails = cardDetails;
 	}
-	 
-	 
-	 
-	
+
+
+
+
 }

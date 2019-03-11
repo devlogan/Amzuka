@@ -3,72 +3,47 @@
 <title>AmzukaStore-Women's Clothing</title>
 </head>
 <body>
+	<jsp:include page="header.jsp" />
 
-<jsp:include page="header.jsp"/>
+	<div class="fullwidth">
 
-<div class="container">
-  
-  <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
+		<div id="myCarousel" class="carousel slide caraousel-image"
+			data-ride="carousel">
+			<!-- Indicators -->
 
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" style="height:500px;">
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner">
 
-      <div class="item active">
-        <a href=""><img src="${images}/sweater2.jpg" alt="Los Angeles" ></a>
-        <div class="carousel-caption">
-          <h3>Los Angeles</h3>
-          <p>LA is always so much fun!</p>
-        </div>
-      </div>
+				<div class="item active">
+					<a href=""><img class="caraousel-image"
+						src="${images}/index1.jpg" alt="Los Angeles"></a>
+				</div>
 
-      <div class="item">
-        <a><img src="chicago.jpg" alt="Chicago" ></a>
-        <div class="carousel-caption">
-          <h3>Chicago</h3>
-          <p>Thank you, Chicago!</p>
-        </div>
-      </div>
-    
-      <div class="item">
-        <a><img src="ny.jpg" alt="New York" ></a>
-        <div class="carousel-caption">
-          <h3>New York</h3>
-          <p>We love the Big Apple!</p>
-        </div>
-      </div>
-      
-      <div class="item">
-        <a><img src="ny.jpg" alt="New York" style="width:100%;"></a>
-        <div class="carousel-caption">
-          <h3>New York</h3>
-          <p>We love the Big Apple!</p>
-        </div>
-      </div>
-  
-    </div>
+				<div class="item">
+					<a><img class="caraousel-image" src="${images }/index2.jpg"
+						alt="Chicago"></a>
+				</div>
 
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
-</div>
+				<div class="item">
+					<a><img class="caraousel-image" src="${images }/index3.jpg"
+						alt="New York"></a>
+				</div>
 
-<iframe width="100%" height="100px" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/225691496&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-></iframe>
+				<div class="item">
+					<a><img class="caraousel-image" src="ny.jpg" alt="New York"
+						style="width: 100%;"></a>
+				</div>
+
+			</div>
 
 
-<jsp:include page="footer.jsp"/>
+
+		</div>
+	</div>
+
+
+	<div class="">
+		<jsp:include page="footer.jsp" />
+	</div>
 </body>
 </html>
