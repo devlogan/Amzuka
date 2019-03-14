@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<beans xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
-http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns:mvc="http://www.springframework.org/schema/mvc" 
-xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans">
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:context = "http://www.springframework.org/schema/context"
+   xmlns:mvc = "http://www.springframework.org/schema/mvc"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans     
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/context 
+   http://www.springframework.org/schema/context/spring-context-3.0.xsd
+   http://www.springframework.org/schema/mvc 
+   http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 <context:component-scan base-package="com.amzukastore"/>
 
@@ -20,8 +23,29 @@ xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.
 
 </bean>
 
-<mvc:annotation-driven/>
 
-<mvc:resources mapping="/resources/**" location="/resources/"/>
+   <mvc:annotation-driven/>  
+   <mvc:resources 
+   location="/resources/" mapping="/resources/**"/>
+
+<bean id="multipartResolver" 
+   class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></bean>
+
+<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:message" />
+		<property name="defaultEncoding" value="UTF-8" />
+</bean>
+<bean id="simpleMappingExceptionResolver"
+	class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<map>
+				<entry key="generic_error" value="\error\generic_error"/>
+				<entry key="generic_error2" value="\error\generic_error2"/>
+			</map>
+		</property>
+		<property name="defaultErrorView" value="Exception"/>	
+	</bean>
+	
 
 </beans>

@@ -16,9 +16,9 @@
 				}
 			var onClickUpdate = function(href){
 				var r=confirm("Do you want to update")
-				var isUpdateTrue="false";
+				if(r==true){
 			    window.location.href="${rootdir}/updateSupplier/"+href;
-				
+				}
 			}
 		
 </script>
@@ -43,7 +43,7 @@
       <tr>
         <th>Supplier Id</th>
         <th>Supplier Name</th>
-        <th>Supplier Description</th>
+        <th>Supplier Address</th>
         <th colspan="2" align="center">Operation</th>
       </tr>
     </thead>
@@ -53,7 +53,7 @@
       <tr>
         <td>${supplier.supplierId}</td>
         <td>${supplier.supplierName}</td>
-        <td>${supplier.supplierDesc}</td>
+        <td>${supplier.supplierAdd}</td>
         
           <td><button type="button" onclick="onClickDelete(${supplier.supplierId})" class="btn btn-primary btn-sm a-btn-slide-text">
           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>

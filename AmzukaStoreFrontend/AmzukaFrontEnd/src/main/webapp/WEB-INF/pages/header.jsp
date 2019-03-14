@@ -44,8 +44,13 @@ body {
 }
 
 nav {
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: 'Century Gothic', sans-serif;
 	color: 'Black'
+	
+}
+.font-size-color{
+    font-size:14px ;
+    color: 'Black';
 }
 
 .dropdown:hover .dropdown-menu {
@@ -185,6 +190,12 @@ nav {
 	height: 600px !important;
 	width: 100%;
 }
+.glyph-modify !important{
+margin-top:8px 
+border-top-color: #000000;
+border-bottom-color: #000000;
+}
+
 </style>
 </head>
 
@@ -205,13 +216,13 @@ nav {
 					data-hover="dropdown" href="#"><b class="navbar-header">SHOP
 							BY CATEGORY</b> </a>
 					<ul class="dropdown-menu mega-menu custom-head">
-						<c:forEach items="${sessionScope.categoryList}" var="categoryObj">
+						<c:forEach items="${categoryList}" var="categoryObj">
 							<li><a
 								href="${rootdir}/getAllProductsByCategory/${categoryObj.categoryId}?user=1">${categoryObj.categoryName}</a></li>
 						</c:forEach>
 					</ul></li>
 
-				<li class="custom-head"><a class="nav-itm" href="#"><b
+				<li class="custom-head"><a class="nav-itm" href="AboutUs.jsp"><b
 						class="navbar-header">ABOUT US</b></a></li>
 				<li class="custom-head"><a class="nav-itm" href="#"><b
 						class="navbar-header">CONTACT US</b></a></li>
@@ -219,7 +230,7 @@ nav {
 				<sec:authorize access="hasAuthority('Admin')">
 					<li class="dropdown"><a class="dropdown-toggle"
 						data-toggle="dropdown" href="#"><b class="navbar-header">ADMIN</b>
-							<span class="caret"></span></a>
+							<span class="fa fa-caret-down" style="margin-left: 1px; margin-left: 5px; margin-top:5px; color: black"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="${rootdir }/addCategory">Add Category</a></li>
 							<li><a href="${rootdir }/viewAllCategories">View
@@ -239,27 +250,27 @@ nav {
 
 					<li class="custom-head-user"><a class="nav-itm-user"
 						href="${rootdir }/registerCustomer"><span
-							class="fa fa-user-plus"></span><b class="navbar-header"> Sign
+							class="fa fa-user-plus"  style="margin-left: 1px; margin-top:5px; color:black"></span><b class="navbar-header"> Sign
 								Up</b></a></li>
 					<li class="custom-head-user"><a class="nav-itm-user"
-						href="${rootdir }/login"><span class="fa fa-sign-in"></span><b
+						href="${rootdir }/login"><span class="fa fa-sign-in " style="margin-left: 1px; margin-top:5px; color: black;"></span><b
 							class="navbar-header"> Login</b></a></li>
 				</sec:authorize>
 
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown custom-head"><a class="dropdown-toggle"><b
-							class="navbar-header">${sessionScope.customerObj.customerName}</b><i
-							class="fa fa-caret-down" style="margin-left: 10px; color: black;"></i></a>
+							class="navbar-header" >${sessionScope.customerObj.customerName}</b><i
+							class="fa fa-caret-down" style="margin-top:5px;margin-left: 10px; color: black;"></i></a>
 						<ul class="dropdown-menu custom-dropdown">
 							<li><a href="${rootdir}/logout"><span
-									class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+									class="glyphicon glyphicon-log-out font-size-color"></span> Logout</a></li>
 						</ul></li>
 				</sec:authorize>
 
 
 				<sec:authorize access="hasAuthority('Customer')">
 					<li class="custom-head"><a href="${rootdir}/viewCart"><span
-							class="fa fa-shopping-bag"></span><b class="navbar-header">Bag(${itemsCount})</b></a></li>
+							class="fa fa-shopping-bag"  style="margin-top:4px; color: black;"></span><b class="navbar-header">Bag(${itemsCount})</b></a></li>
 				</sec:authorize>
 			</ul>
 		</div>

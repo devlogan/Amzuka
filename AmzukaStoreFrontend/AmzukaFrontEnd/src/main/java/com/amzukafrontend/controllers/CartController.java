@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.amzukastore.dao.CartDao;
 import com.amzukastore.dao.CustomerDao;
@@ -64,7 +66,6 @@ public class CartController {
 	ModelAndView mv;
 
 
-
 	@ModelAttribute
 	public void getUserEmail(HttpServletRequest request){
 		Principal p=request.getUserPrincipal();
@@ -74,8 +75,10 @@ public class CartController {
 
 
 	@RequestMapping(value="/addToCart/{productId}",method=RequestMethod.GET)
-	public String addToCart(@PathVariable("productId")int productId){
+	public String addToCart(@PathVariable("productId")int productId,HttpServletRequest request,RedirectAttributes redirectAttributes){
+		
 		Cart cartObj=cartDao.getCartByCustomer(customerEmail);
+		
 		if(cartObj==null){
 			System.out.println("Cart doesnt exist");
 			cartObj=new Cart();
@@ -107,36 +110,58 @@ public class CartController {
 			itemDao.increaseQuantity(itemObj.getItemId());
 			System.out.println("Quantity Updated Succesfully");
 		}
+		
+		int count=1;
+		for(Item item:cartObj.getItems()){
+			count=count+item.getQuantity();
+		}
+		redirectAttributes.addFlashAttribute("itemsCount", count);
+		
 		//return "redirect:/viewCart?cartId="+cartObj.getCartId();
-		return "redirect:/viewCart";
+		return getPreviousPageByRequest(request).orElse("/"); //else go to home page;
 	}
 
 	@RequestMapping(value="viewCart",method=RequestMethod.GET)
 	public ModelAndView getCart(@RequestParam(name="addrId",required=false)Integer addressId){
 
-		Cart cartObj=cartDao.getCartByCustomer(customerEmail);
-		Collection<Item> itemslist=cartObj.getItems();
+		double sum=0;
+        int count=0;
+		
+        mv=new ModelAndView("Cart");
+        Cart cartObj=cartDao.getCartByCustomer(customerEmail);
+        
+        if(cartObj==null){
+			System.out.println("Cart doesnt exist");
+			cartObj=new Cart();
+			cartObj.setCustomer(customerDao.getCustomer(customerEmail));
 
-		mv=new ModelAndView("Cart");
-		int count=0;
-
-		if(itemslist.size()==0){
-			mv.addObject("msg","Dear Customer , You cart is empty..");
-			return mv;
+			cartDao.addCart(cartObj);
+			System.out.println("Cart created succesfully");
 		}
 		else {
+			System.out.println("Cart exist already");
+		}
 
-			double sum=0;
+		
+		if(cartObj.getItems().size()==0){
+			mv.addObject("msg","Dear Customer , You cart is empty..");
+			
+		}
+		
+		else {
 
+			Collection<Item> itemslist=cartObj.getItems();
 			for(Item item:itemslist){
 				sum=sum+(item.getPrice()*item.getQuantity());
 				count=count+item.getQuantity();
 			}
-			session.setAttribute("itemsCount",count);
+			
 			mv.addObject("cartItems",itemslist);
 			mv.addObject("totalCost",sum);
-			return mv; 
+			
 		}
+		session.setAttribute("itemsCount",count);
+		return mv;
 	}
 
 
@@ -195,7 +220,7 @@ public class CartController {
 	}
 
 	@RequestMapping(value="deleteAddress", method=RequestMethod.GET)
-	public String deleteAddress(@RequestParam("addrId")int addressId) {
+	public String deleteAddress(@RequestParam("address")int addressId) {
 
 		Address address=customerDao.getAddressById(addressId);
 		customerDao.deleteAddress(address);
@@ -205,7 +230,7 @@ public class CartController {
 	}
 
 	@RequestMapping(value="updateAddress", method=RequestMethod.GET)
-	public ModelAndView updateAddress(@RequestParam("addrId")int addressId) {
+	public ModelAndView updateAddress(@RequestParam("address")int addressId) {
 
 		Address address=customerDao.getAddressById(addressId);
 		mv=new ModelAndView("AddressPage");
@@ -301,6 +326,11 @@ public class CartController {
 		cartDao.deleteCart(cart.getCartId());
 
 		return mv;	
+	}
+	
+	protected Optional<String> getPreviousPageByRequest(HttpServletRequest request)
+	{
+	   return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl);
 	}
 
 

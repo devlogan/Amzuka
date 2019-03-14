@@ -29,6 +29,7 @@ public class SupplierTestCase {
 		supplierDao=context.getBean("supplierDao",SupplierDao.class);
 		System.out.println(supplierDao);
 		//System.out.println("hello");
+		context.close();
 	}
 
 	@Test

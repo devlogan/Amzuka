@@ -16,11 +16,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.amzukastore.dao.CartDao;
 import com.amzukastore.dao.CategoryDao;
 import com.amzukastore.dao.CustomerDao;
+import com.amzukastore.dao.ProductDao;
 import com.amzukastore.dao.SupplierDao;
 import com.amzukastore.models.Cart;
 import com.amzukastore.models.Category;
 import com.amzukastore.models.Customer;
 import com.amzukastore.models.Item;
+import com.amzukastore.models.Product;
 import com.amzukastore.models.Supplier;
 
 @Controller
@@ -43,6 +45,9 @@ public class IndexController {
 
 	@Autowired
 	CustomerDao customerDao;
+	
+	@Autowired
+	ProductDao productDao;
 
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public ModelAndView getHomePage(){
@@ -59,9 +64,8 @@ public class IndexController {
 			Customer customer=customerDao.getCustomer(email);
 
 			session.setAttribute("customerObj",customer);
-			System.out.println("hello1");
+			
 			Cart cart=cartDao.getCartByCustomer(email);
-			System.out.println("check");
 
 			if(cart!=null) {
 				Collection<Item> items=cart.getItems();
@@ -70,17 +74,17 @@ public class IndexController {
 					count=count+it.getQuantity();
 				}
 			}
-			System.out.println("hello4");
+			
 			session.setAttribute("itemsCount",count);
 
 		}
-		System.out.println("hello5");
 		List<Category> categoryList=categoryDao.listCategories();
 		List<Supplier> supplierList=supplierDao.listSuppliers();
+		List<Product> productList=productDao.getAllProducts();
 
 		session.setAttribute("categoryList",categoryList);
 		session.setAttribute("supplierList", supplierList);
-		System.out.println(session.getAttribute("itemsCount"));
+		session.setAttribute("productList1", productList);
 		ModelAndView mv=new ModelAndView("index");
 		System.out.println(mv);
 		return mv;
@@ -93,7 +97,7 @@ public class IndexController {
 			ModelAndView mv=new ModelAndView("index");
 			mv.addObject("message", "This Page doesn't exist, just like Santa.");
 			return mv;
-		} */	
+		} 	*/
 
 
 

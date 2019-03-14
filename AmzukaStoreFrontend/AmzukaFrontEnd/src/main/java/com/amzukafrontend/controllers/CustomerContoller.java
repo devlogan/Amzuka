@@ -1,10 +1,10 @@
 package com.amzukafrontend.controllers;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.amzukastore.dao.CategoryDao;
 import com.amzukastore.dao.CustomerDao;
+import com.amzukastore.models.Category;
 import com.amzukastore.models.Customer;
 
 @Controller
@@ -81,9 +82,9 @@ public class CustomerContoller {
 			if(error!=null){
 				mv.addObject("msg","Email or Password is incorrect");
 			}
-			/*	    	 List<Category> categories=categoryDao.getAllCategories();
+			List<Category> categories=categoryDao.listCategories();
  		 mv.addObject("categoryList",categories);
-			 */       }
+			        }
 		return mv; 
 	}
 

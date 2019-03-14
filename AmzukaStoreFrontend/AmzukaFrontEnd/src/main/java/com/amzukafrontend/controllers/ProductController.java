@@ -120,6 +120,7 @@ public class ProductController {
 			mv=new ModelAndView("ViewAllProductsByCategory");
 		}
 		mv.addObject("productList",productsList);
+		mv.addObject("categoryName",categoryDao.getCategory(catId).getCategoryName());
 		return mv;
 	}
 
